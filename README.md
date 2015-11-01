@@ -42,7 +42,7 @@ Then run (replace `PATH_TO_YOUR_REPOSITORY` to your system path):
 
 ```  
 
-docker run -p 80:80 -d -e MODULE=imagePicker -v /PATH_TO_YOUR_REPOSITORY/image-picker/imagePicker:/opt/django/app image-picker
+docker run -p 80:80 -d -e MODULE=imagePicker -v /PATH_TO_YOUR_REPOSITORY/image-picker/imagePicker:/opt/django/app -v /PATH_TO_YOUR_REPOSITORY/image-picker/static:/opt/django/volatile/static image-picker
 
 ```
 Access http://localhost/ to verify if it works.
