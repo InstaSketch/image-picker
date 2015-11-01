@@ -22,6 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '25vp(c%i6uxdzl$6qwm*5@_i)yxeaa#!z0i18xvhmokg^f(t(t'
 
+QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY')
+QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY')
+QINIU_BUCKET_DEFAULT = os.environ.get('QINIU_BUCKET_DEFAULT')
+QINIU_BUCKET_DOMAIN = os.environ.get('QINIU_BUCKET_DOMAIN')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -37,15 +42,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'dbmanager',
+    'image_api'
 )
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.IsAdminUser'
+    ],
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE_CLASSES = (
@@ -109,3 +117,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '../static/'
