@@ -14,5 +14,9 @@ RUN (echo "daemon off;" >> /etc/nginx/nginx.conf &&\
   ln -s /opt/django/django.conf /etc/nginx/sites-enabled/ &&\
   ln -s /opt/django/supervisord.conf /etc/supervisor/conf.d/)
 
+ADD static /opt/django/volatile/static/
+ADD imagePicker /opt/django/app/
+
+
 EXPOSE 80
 CMD ["/opt/django/run.sh"]
