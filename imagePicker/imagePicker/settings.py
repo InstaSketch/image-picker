@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '25vp(c%i6uxdzl$6qwm*5@_i)yxeaa#!z0i18xvhmokg^f(t(t'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY')
 QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY')
@@ -28,10 +28,9 @@ QINIU_BUCKET_DEFAULT = os.environ.get('QINIU_BUCKET_DEFAULT')
 QINIU_BUCKET_DOMAIN = os.environ.get('QINIU_BUCKET_DOMAIN')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 
@@ -44,15 +43,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'dbmanager',
-    'image_api'
+    'image_api',
+    'initializer',
+    'image_query',
+    'solo'
 )
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser'
+        'rest_framework.permissions.AllowAny'
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
 
@@ -91,13 +94,23 @@ WSGI_APPLICATION = 'imagePicker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('PQ_NAME'),
+        'USER': os.environ.get('PQ_USER'),
+        'PASSWORD': os.environ.get('PQ_PASSWD'),
+        'HOST': os.environ.get('PQ_HOST'),
+        'PORT': os.environ.get('PQ_PORT'),
     }
 }
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

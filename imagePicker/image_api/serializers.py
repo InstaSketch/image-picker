@@ -1,14 +1,14 @@
-from dbmanager.models import image
+from dbmanager.models import Image
 from rest_framework import serializers
-from image_api.imageloader import imageloader
+from image_api.imageloader import Imageloader
 
 
 class ImageSerializer(serializers.HyperlinkedModelSerializer):
     img_path = serializers.SerializerMethodField('rewrite')
     class Meta:
-        model = image
-        fields = ('img_path','key')
+        model = Image
+        fields = ['img_path']
 
     def rewrite(self, img_path):
-        loader = imageloader()
+        loader = Imageloader()
         return loader.get_url(img_path)

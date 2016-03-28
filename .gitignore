@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+*.o
 # C extensions
 *.so
 
@@ -19,6 +19,8 @@ lib64/
 parts/
 sdist/
 var/
+tmp/
+test/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -42,6 +44,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+test.py
 
 # Translations
 *.mo
@@ -55,3 +58,7 @@ docs/_build/
 
 # PyBuilder
 target/
+.idea/
+.pylintrc
+*.sqlite3
+test_*.py
