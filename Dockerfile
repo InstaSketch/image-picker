@@ -22,7 +22,7 @@ RUN apt-get install -y \
         libblas-dev \
         liblapack-dev \
         libatlas-base-dev \
-        gfortran
+        gfortran \
         nginx \
         libpq-dev \
         supervisor
