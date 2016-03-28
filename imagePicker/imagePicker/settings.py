@@ -26,11 +26,18 @@ QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY')
 QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY')
 QINIU_BUCKET_DEFAULT = os.environ.get('QINIU_BUCKET_DEFAULT')
 QINIU_BUCKET_DOMAIN = os.environ.get('QINIU_BUCKET_DOMAIN')
+PG_NAME = os.environ.get('PG_NAME')
+PG_USER = os.environ.get('PG_USER')
+PG_PASSWD = os.environ.get('PG_PASSWD')
+PG_HOST = os.environ.get('PG_HOST')
+PG_PORT = os.environ.get('PG_PORT')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 
@@ -94,23 +101,17 @@ WSGI_APPLICATION = 'imagePicker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PQ_NAME'),
-        'USER': os.environ.get('PQ_USER'),
-        'PASSWORD': os.environ.get('PQ_PASSWD'),
-        'HOST': os.environ.get('PQ_HOST'),
-        'PORT': os.environ.get('PQ_PORT'),
+        'NAME': PG_NAME,
+        'USER': PG_USER,
+        'PASSWORD': PG_PASSWD,
+        'HOST': PG_HOST,
+        'PORT': PG_PORT,
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

@@ -6,4 +6,5 @@ django-filter
 qiniu
 numpy
 psycopg2
+gunicorn
 git+https://github.com/InstaSketch/algolib.git@develop

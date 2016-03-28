@@ -38,7 +38,7 @@ RUN unzip 3.1.0.zip \
 && cmake -DBUILD_TIFF=ON \
   -DBUILD_opencv_java=OFF \
   -DWITH_CUDA=OFF \
-  -DENABLE_AVX=ON \
+  -DENABLE_AVX=OFF \
   -DWITH_OPENGL=ON \
   -DWITH_OPENCL=ON \
   -DWITH_IPP=ON \
@@ -57,18 +57,13 @@ RUN unzip 3.1.0.zip \
 && rm /3.1.0.zip \
 && rm -r /opencv-3.1.0
 
-ADD imagePicker/requirements.txt /opt/django/requirements.txt
-RUN pip3 install -r /opt/django/requirements.txt
-ADD confs/* /opt/django/
+ADD imagePicker/requirements.txt /opt/requirements.txt
+RUN pip install -r /opt/requirements.txt
+ADD confs/* /opt/
 
-RUN (echo "daemon off;" >> /etc/nginx/nginx.conf &&\
-  rm /etc/nginx/sites-enabled/default &&\
-  ln -s /opt/django/django.conf /etc/nginx/sites-enabled/ &&\
-  ln -s /opt/django/supervisord.conf /etc/supervisor/conf.d/)
+ADD static /opt/static/
+ADD imagePicker /opt/app/
 
-ADD static /opt/django/volatile/static/
-ADD imagePicker /opt/django/app/
-
-
+WORKDIR /opt/app
 EXPOSE 80
-CMD ["/opt/django/run.sh"]
+CMD python manage.py runserver 0.0.0.0:80
