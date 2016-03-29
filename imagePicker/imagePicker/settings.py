@@ -20,17 +20,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '25vp(c%i6uxdzl$6qwm*5@_i)yxeaa#!z0i18xvhmokg^f(t(t'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY')
 QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY')
 QINIU_BUCKET_DEFAULT = os.environ.get('QINIU_BUCKET_DEFAULT')
 QINIU_BUCKET_DOMAIN = os.environ.get('QINIU_BUCKET_DOMAIN')
+PG_NAME = os.environ.get('PG_NAME')
+PG_USER = os.environ.get('PG_USER')
+PG_PASSWD = os.environ.get('PG_PASSWD')
+PG_HOST = os.environ.get('PG_HOST')
+PG_PORT = os.environ.get('PG_PORT')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,15 +50,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'dbmanager',
-    'image_api'
+    'image_api',
+    'initializer',
+    'image_query',
+    'solo'
 )
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser'
+        'rest_framework.permissions.AllowAny'
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
 
@@ -93,8 +103,12 @@ WSGI_APPLICATION = 'imagePicker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': PG_NAME,
+        'USER': PG_USER,
+        'PASSWORD': PG_PASSWD,
+        'HOST': PG_HOST,
+        'PORT': PG_PORT,
     }
 }
 
