@@ -1,0 +1,21 @@
+pq:
+  image: postgres:9.5.0
+  env_file:
+    - env/db.env
+  restart: always
+  ports:
+    - "5555:5432"
+
+web:
+  build: .
+  dockerfile: Dockerfile-dev
+  image: img_picker
+  volumes:
+    - ./imagePicker/:/opt/app/
+  ports:
+    - "3000:80"
+  env_file:
+    - env/web.env
+  restart: always
+  links:
+    - pq

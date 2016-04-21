@@ -7,4 +7,5 @@ qiniu
 numpy
 psycopg2
 gunicorn
+django-silk
 git+https://github.com/InstaSketch/algolib.git@develop

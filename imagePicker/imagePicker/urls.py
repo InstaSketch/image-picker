@@ -13,13 +13,13 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.views.generic import RedirectView
 from image_api import views
-
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/images/')),
     url(r'^images/$', views.search_images),
-    url(r'^vocabulary/$', views.get_voc)
+    url(r'^vocabulary/$', views.get_voc),
+    url(r'^silk/', include('silk.urls', namespace='silk'))
 ]
