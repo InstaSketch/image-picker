@@ -65,6 +65,5 @@ ADD static /opt/static/
 ADD imagePicker /opt/app/
 
 WORKDIR /opt/app
-RUN python manage.py migrate
 EXPOSE 80
 CMD python manage.py runserver 0.0.0.0:80

@@ -32,6 +32,8 @@ PG_PASSWD = os.environ.get('PG_PASSWD')
 PG_HOST = os.environ.get('PG_HOST')
 PG_PORT = os.environ.get('PG_PORT')
 
+SILKY_PYTHON_PROFILER = True
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -53,7 +55,8 @@ INSTALLED_APPS = (
     'image_api',
     'initializer',
     'image_query',
-    'solo'
+    'solo',
+    'silk'
 )
 
 REST_FRAMEWORK = {
@@ -75,6 +78,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'silk.middleware.SilkyMiddleware',
 )
 
 ROOT_URLCONF = 'imagePicker.urls'
