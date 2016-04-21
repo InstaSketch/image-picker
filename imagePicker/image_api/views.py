@@ -1,7 +1,7 @@
 import cv2
 import base64
 import numpy as np
-import gc
+import msgpack
 from image_query import query
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -46,9 +46,9 @@ def search_images(request):
         else:
 
             bow_hist = base64.b64decode(request.data['bow_hist'])
-            bow_hist = np.fromstring(bow_hist, dtype=np.float32)
+            bow_hist = np.array(msgpack.unpackb(bow_hist), dtype=np.float32)
             color_hist = base64.b64decode(request.data['color_hist'])
-            color_hist = np.fromstring(color_hist, dtype=np.float32)
+            color_hist = np.array(msgpack.unpackb(color_hist), dtype=np.float32)
             results = query.get_results(search.search_image(
                 img=None, bow_hist=bow_hist, color_hist=color_hist,
                 metric=method))[:limit]
@@ -64,6 +64,9 @@ def search_images(request):
 @renderer_classes((VocRenderer,))
 @silk_profile(name='Get Voc')
 def get_voc(request):
-    bow_voc = Vocabulary.objects.get().get_data()
-    bow_voc = base64.b64encode(bow_voc.tostring())
-    return Response(bow_voc)
+    try:
+        bow_voc = Vocabulary.objects.get().get_data()
+        bow_voc = base64.b64encode(msgpack.packb(bow_voc.tolist()))
+        return Response(bow_voc)
+    except:
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)

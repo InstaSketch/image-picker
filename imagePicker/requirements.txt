@@ -8,4 +8,5 @@ numpy
 psycopg2
 gunicorn
 django-silk
+msgpack-python
 git+https://github.com/InstaSketch/algolib.git@develop

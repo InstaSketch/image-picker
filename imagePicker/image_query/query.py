@@ -8,7 +8,7 @@ class Search(object):
         self.dumper = Dumper()
         self.query = Query()
 
-    def search_image(self, img, bow_hist, color_hist, metric, sketch):
+    def search_image(self, img, bow_hist, color_hist, metric, sketch=False):
         return self.query.query_image(img, bow_hist, color_hist, self.dumper.get_img_data(), self.dumper.get_voc_data(), metric, sketch)
 
 def get_results(results):
