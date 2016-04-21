@@ -29,6 +29,12 @@ def search_images(request):
         method = request.query_params['method']
     else:
         method = None
+
+    if 'disableBoW' in request.query_params.keys():
+        disableBoW = True
+    else:
+        disableBoW = False
+
     try:
         if request.FILES.get("image", None) is not None:
             sketch = True if 'sketch' in request.query_params.keys() else False
@@ -37,7 +43,7 @@ def search_images(request):
             img = cv2.imdecode(data, (-1 if sketch else cv2.IMREAD_COLOR))
             results = query.get_results(search.search_image(
                 img, bow_hist=None, color_hist=None,
-                metric=method, sketch=sketch))[:limit]
+                metric=method, sketch=sketch), disableBoW)[:limit]
             imgs = Image.objects.in_bulk(results)
             sorted_imgs = [imgs[img_path] for img_path in results]
             serializer = ImageSerializer(sorted_imgs, many=True)
@@ -51,14 +57,13 @@ def search_images(request):
             color_hist = np.array(msgpack.unpackb(color_hist), dtype=np.float32)
             results = query.get_results(search.search_image(
                 img=None, bow_hist=bow_hist, color_hist=color_hist,
-                metric=method))[:limit]
+                metric=method), disableBoW)[:limit]
             imgs = Image.objects.in_bulk(results)
             sorted_imgs = [imgs[img_path] for img_path in results]
             serializer = ImageSerializer(sorted_imgs, many=True)
             return Response(serializer.data)
     except:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET'])
 @renderer_classes((VocRenderer,))

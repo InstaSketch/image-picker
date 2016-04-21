@@ -58,6 +58,7 @@ RUN unzip 3.1.0.zip \
 && rm -r /opencv-3.1.0
 
 ADD imagePicker/requirements.txt /opt/requirements.txt
+ADD http://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
 RUN pip install -r /opt/requirements.txt
 ADD confs/* /opt/
 
